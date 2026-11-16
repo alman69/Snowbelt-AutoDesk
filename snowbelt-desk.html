@@ -1215,8 +1215,8 @@ const busy = () => runningAll || Object.values(S.res).some(r => r.status === "ru
 function scheduleAd(ms){
   clearTimeout(adTimer); if (premium) return;
   adTimer = setTimeout(() => {
-    if (!premium && !busy() && !document.hidden && !$("#pmodal") && !$("#pgate") && document.querySelectorAll("body > .pop").length < 4) spawnAd();
-    scheduleAd(5000 + Math.random() * 5000);
+    if (!premium && !busy() && !document.hidden && !$("#pmodal") && !$("#pgate") && document.querySelectorAll("body > .pop").length < 3) spawnAd();
+    scheduleAd(15000 + Math.random() * 18000);
   }, ms);
 }
 const FOOT = `<div class="adfoot"><span>Sponsored · AdChoices ▷</span><a data-prem tabindex="0">Remove ads with Premium</a></div>`;
@@ -1349,7 +1349,7 @@ function setPremium(on){
   premium = on; try { localStorage.setItem("snowbelt-premium", on ? "1" : "0"); } catch {}
   renderPremBtn();
   if (on) { clearTimeout(adTimer); [...document.querySelectorAll(".pop")].forEach((p, i) => { p.style.animationDelay = i * 80 + "ms"; p.classList.add("bye"); setTimeout(() => p.remove(), 500 + i * 80); }); }
-  else { spawnAd(); scheduleAd(4000); }
+  else { spawnAd(); scheduleAd(12000); }
 }
 function closeModal(){ const m = $("#pmodal"); if (m) m.remove(); }
 function openPremium(){
@@ -1406,5 +1406,5 @@ renderEngine(); renderAll(); renderPremBtn();
 setTimeout(() => document.body.classList.remove("boot"), 1800);
 $("#runall").onclick = runAll;
 $("#premium").onclick = openPremiumGate;
-scheduleAd(3000);
+scheduleAd(8000);
 </script>
