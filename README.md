@@ -21,6 +21,10 @@ Every ticket goes through five steps:
 
 The **Business case** tab shows the numbers. About 76% of tickets get answered in under a minute, reps handle 282 a week (below the pre-holiday load of 300), tools cost about $400 a month, and about $840K a year in repeat revenue is at risk. A slider lets you test the automation rate.
 
+**Run whole queue** processes every open ticket one after another, so you can watch the backlog clear.
+
+**Pop-up ads (a gag):** retro "virus" ads and winter-themed dating ads appear every 15–35 seconds. They pause while a ticket is running. Click **★ Remove ads** and "pay with 1 snow shovel" to turn on Premium, which plows the ads away. It's a joke: no payment is collected. Your browser remembers Premium, and you can cancel it from the same button to bring the ads back.
+
 ## Running it
 
 - **Live with Claude:** the page is published as a claude.ai artifact, where it calls Claude through the artifact runtime (`claude.use("sample")`). No API key is needed.

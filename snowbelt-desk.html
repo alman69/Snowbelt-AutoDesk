@@ -11,6 +11,8 @@
   --plow:#d9530c; --plow-ink:#ffffff; --plow-soft:#fbe7db;
   --ok:#17804f; --ok-bg:#dff2e8; --warn:#9a6410; --warn-bg:#f8ecd2; --bad:#bf2f25; --bad-bg:#fae2df;
   --focus:#2563d6;
+  /* retro pop-up ads: one deliberate look in both themes */
+  --pop-face:#d4d0c8; --pop-dark:#808080; --pop-white:#ffffff; --pop-ink:#000000; --pop-t1:#0a246a; --pop-t2:#3a6ea5; --pop-m1:#b0124f; --pop-m2:#e0457b;
   --display:"Archivo", "Helvetica Neue", Arial, sans-serif;
   --body:"Archivo", "Helvetica Neue", Arial, sans-serif;
   --mono:"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
@@ -232,11 +234,129 @@ details.raw pre{margin:0;padding:0 14px 14px;font-family:var(--mono);font-size:1
 .toast{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:6px;font-weight:600;font-size:13px;opacity:0;transition:.2s;pointer-events:none;max-width:calc(100vw - 32px);z-index:20}
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 
+/* ---------- motion ---------- */
+.top{position:relative;isolation:isolate}
+#snow{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+.top::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--plow);transform-origin:left;transform:scaleX(0);opacity:0}
+.boot .top::after{animation:plow 1.3s .15s cubic-bezier(.65,0,.25,1)}
+@keyframes plow{0%{transform:scaleX(0);opacity:1}70%{transform:scaleX(1);opacity:1}100%{transform:scaleX(1);opacity:0}}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes pop{0%{transform:scale(0)}65%{transform:scale(1.3)}100%{transform:scale(1)}}
+@keyframes fill{from{width:0}}
+@keyframes slide{from{left:50%}}
+.boot .top > :not(canvas){animation:rise .6s cubic-bezier(.2,.7,.2,1) backwards}
+.boot .top > :nth-child(3){animation-delay:.06s}
+.boot .top > :nth-child(4){animation-delay:.12s}
+.boot .top > :nth-child(5){animation-delay:.18s}
+.boot .grid > *{animation:rise .6s cubic-bezier(.2,.7,.2,1) backwards}
+.boot .grid > :nth-child(2){animation-delay:.12s}
+.boot .grid > :nth-child(3){animation-delay:.22s}
+.boot .qi{animation:rise .5s cubic-bezier(.2,.7,.2,1) backwards;animation-delay:calc(var(--i) * 55ms + .25s)}
+
+.btn{transition:background .15s,transform .08s,filter .15s,box-shadow .15s}
+.btn:active:not([disabled]){transform:translateY(1px) scale(.985)}
+.btn.primary{box-shadow:0 1px 0 rgba(0,0,0,.18),0 0 0 0 var(--plow-soft)}
+.btn.primary:hover{box-shadow:0 1px 0 rgba(0,0,0,.18),0 0 0 4px var(--plow-soft)}
+.btn.sm{padding:5px 10px;font-size:12px}
+.btn.sm.on{border-color:var(--plow);color:var(--plow)}
+.btn.sm.on::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--plow);animation:blink 1s steps(2) infinite}
+.qi{transition:background .15s}
+.qi.flash.ok{animation:flash-ok 2s ease-out}
+.qi.flash.warn{animation:flash-warn 2s ease-out}
+.qi.flash.bad{animation:flash-bad 2s ease-out}
+@keyframes flash-ok{0%,25%{background:var(--ok-bg)}}
+@keyframes flash-warn{0%,25%{background:var(--warn-bg)}}
+@keyframes flash-bad{0%,25%{background:var(--bad-bg)}}
+.swap{animation:rise .35s cubic-bezier(.2,.7,.2,1)}
+
+/* pipeline check pop */
+.st[data-s="done"] .n::before{content:"✓ ";display:inline-block}
+.st[data-s="done"]:not([data-settled]) .n::before{animation:pop .35s cubic-bezier(.3,1.5,.5,1)}
+.st[data-s="active"] .l{color:var(--plow)}
+
+/* the stamp */
+.dec .badge{border:2px solid currentColor;transform:rotate(-3deg);background-clip:padding-box}
+.dec.fresh .badge{animation:stamp .6s cubic-bezier(.3,1.35,.5,1) both}
+.dec.fresh .why{animation:rise .4s .3s cubic-bezier(.2,.7,.2,1) backwards}
+.dec.fresh{animation:thud .3s .3s}
+@keyframes stamp{0%{opacity:0;transform:scale(2.4) rotate(-12deg)}50%{opacity:1;transform:scale(.9) rotate(-2deg)}72%{transform:scale(1.05) rotate(-3.5deg)}100%{opacity:1;transform:scale(1) rotate(-3deg)}}
+@keyframes thud{35%{transform:translateY(2px)}}
+
+/* triage, label, checks */
+.kv.fresh dt,.kv.fresh dd{animation:rise .35s cubic-bezier(.2,.7,.2,1) backwards}
+.kv.fresh .bar i{animation:fill .7s .1s cubic-bezier(.2,.7,.2,1) backwards}
+.kv.fresh .sent-scale i{animation:slide .8s .1s cubic-bezier(.2,.7,.2,1) backwards}
+.label.fresh{animation:print 1s steps(16,end) both}
+@keyframes print{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 0 0)}}
+.checks.fresh li{animation:rise .35s cubic-bezier(.2,.7,.2,1) backwards;animation-delay:calc(var(--i) * 80ms)}
+.checks.fresh .ic{animation:pop .35s cubic-bezier(.3,1.5,.5,1) backwards;animation-delay:calc(var(--i) * 80ms + .15s)}
+
+/* business case intro */
+#biz.intro > *{animation:rise .55s cubic-bezier(.2,.7,.2,1) backwards}
+#biz.intro .two{animation-delay:.12s}
+#biz.intro .kpi{animation:rise .5s cubic-bezier(.2,.7,.2,1) backwards}
+#biz.intro .kpi:nth-child(2){animation-delay:.08s}
+#biz.intro .kpi:nth-child(3){animation-delay:.16s}
+#biz.intro .kpi:nth-child(4){animation-delay:.24s}
+#biz.intro .stack i{animation:fill 1s cubic-bezier(.2,.7,.2,1) backwards;animation-delay:calc(var(--i, 0) * 90ms + .3s)}
+#biz.intro .loadbar .fill{animation:fill 1s .4s cubic-bezier(.2,.7,.2,1) backwards}
+
+/* ---------- pop-up ads (gag) ---------- */
+.pop{position:fixed;z-index:30;width:min(320px,calc(100vw - 32px));background:var(--pop-face);color:var(--pop-ink);border:2px solid;border-color:var(--pop-white) var(--pop-dark) var(--pop-dark) var(--pop-white);box-shadow:1px 1px 0 var(--pop-ink),8px 10px 0 rgba(0,0,0,.22);font-family:Tahoma,Verdana,"Segoe UI",sans-serif;font-size:12px;line-height:1.35;animation:popin .32s cubic-bezier(.3,1.5,.5,1)}
+.pop .tb{display:flex;align-items:center;gap:6px;padding:3px 3px 3px 6px;background:linear-gradient(90deg,var(--pop-t1),var(--pop-t2));color:var(--pop-white);font-weight:700;cursor:grab;user-select:none;touch-action:none}
+.pop .tb span{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pop .x,.pop .pa button{background:var(--pop-face);color:var(--pop-ink);border:2px solid;border-color:var(--pop-white) var(--pop-dark) var(--pop-dark) var(--pop-white);cursor:pointer;font:inherit}
+.pop .x{width:20px;height:18px;padding:0;line-height:12px;font-weight:700;font-size:13px}
+.pop .x:active,.pop .pa button:active{border-color:var(--pop-dark) var(--pop-white) var(--pop-white) var(--pop-dark)}
+.pop .pb{display:flex;gap:12px;padding:14px 12px 10px}
+.pop .ico{font-size:28px;line-height:1;flex:none;width:32px;text-align:center;font-weight:700;color:var(--pop-t1)}
+.pop.match .tb{background:linear-gradient(90deg,var(--pop-m1),var(--pop-m2))}
+.pop.match .ico{color:var(--pop-m1);animation:beat 1s ease-in-out infinite}
+@keyframes beat{0%,100%{transform:scale(1)}15%{transform:scale(1.25)}30%{transform:scale(1)}45%{transform:scale(1.15)}}
+.pop .msg b{display:block;font-size:13px;margin-bottom:4px}
+.pop .pa{display:flex;gap:8px;justify-content:flex-end;padding:0 12px 10px;flex-wrap:wrap}
+.pop .pa button{min-width:78px;padding:4px 10px}
+.pop .pa button.def{outline:1px dotted var(--pop-ink);outline-offset:-5px;font-weight:700}
+.pop .pf{border-top:1px solid var(--pop-dark);padding:5px 10px;font-size:11px;display:flex;justify-content:space-between;gap:8px}
+.pop .pf a{color:var(--pop-t1);cursor:pointer;text-decoration:underline}
+.pop .prog{height:14px;border:1px solid var(--pop-dark);background:var(--pop-white);margin-top:8px;padding:1px;overflow:hidden}
+.pop .prog i{display:block;height:100%;width:30%;background:repeating-linear-gradient(90deg,var(--pop-t1) 0 8px,transparent 8px 10px);animation:prog 3s steps(12,end) infinite}
+@keyframes prog{from{width:4%}to{width:99%}}
+.pop.shake{animation:shake .4s}
+.pop.closing{animation:popout .16s ease-in forwards}
+.pop.bye{animation:bye .45s cubic-bezier(.5,0,.9,.4) forwards}
+@keyframes popin{from{opacity:0;transform:scale(.55)}}
+@keyframes popout{to{opacity:0;transform:scale(.85)}}
+@keyframes shake{20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
+@keyframes bye{to{opacity:0;transform:translateX(110vw) rotate(10deg)}}
+
+.btn.sm.prem{border-color:var(--plow);color:var(--plow)}
+.btn.sm.prem.on{background:var(--plow);color:var(--plow-ink)}
+.modal{position:fixed;inset:0;z-index:90;display:grid;place-items:center;padding:16px;background:rgba(8,14,20,.55);backdrop-filter:blur(3px);animation:fadein .2s}
+.pm{width:min(420px,100%);background:var(--panel);color:var(--ink);border-radius:10px;border:1px solid var(--line);box-shadow:0 30px 60px rgba(0,0,0,.35);overflow:hidden;animation:rise .35s cubic-bezier(.2,.7,.2,1)}
+.pmh{padding:22px 22px 18px;background:var(--ink);color:var(--bg)}
+.pmh h2{margin:0;font-family:var(--display);font-stretch:125%;font-weight:800;font-size:26px;letter-spacing:-.01em}
+.pmh p{margin:6px 0 0;opacity:.8}
+.pm ul{list-style:none;margin:0;padding:16px 22px 8px;display:grid;gap:8px}
+.pm li{display:flex;gap:10px}
+.pm li::before{content:"✓";color:var(--ok);font-weight:800}
+.pm .price{padding:4px 22px 0;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.pm .price b{font-family:var(--display);font-stretch:118%;font-size:30px;font-weight:800}
+.pm .price s{color:var(--ink-3)}
+.pmf{padding:14px 22px 20px;display:grid;gap:8px}
+.pmf .btn{justify-content:center}
+.pmf .btn[disabled]{opacity:1}
+.spin{width:14px;height:14px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes fadein{from{opacity:0}}
+.toast{z-index:100}
+
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 
 <div class="app">
   <header class="top">
+    <canvas id="snow" aria-hidden="true"></canvas>
     <div class="brand">
       <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true">
         <rect width="30" height="30" rx="6" fill="var(--ink)"/>
@@ -253,11 +373,12 @@ details.raw pre{margin:0;padding:0 14px 14px;font-family:var(--mono);font-size:1
     </div>
     <div class="meters" id="meters"></div>
     <span class="engine" id="engine" data-s="connecting"><i></i><span>Connecting to Claude…</span></span>
+    <button class="btn sm prem" id="premium" type="button">★ Remove ads</button>
   </header>
 
   <main id="inbox" class="grid">
     <aside class="panel" aria-label="Queue">
-      <div class="ph"><h2>Queue</h2><span class="sp chip" id="qcount"></span></div>
+      <div class="ph"><h2>Queue</h2><span class="chip" id="qcount"></span><button class="btn sm sp" id="runall" type="button">Run whole queue</button></div>
       <button class="newbtn" id="newbtn">＋ Test a new customer message</button>
       <ul class="q" id="queue"></ul>
     </aside>
@@ -595,17 +716,19 @@ async function run(id){
   }
   if (!tri) { await sleep(350); tri = heuristicTriage(t); r.engine = "rules"; }
   r.tri = tri; step("classify", "done", performance.now() - t1);
+  if (S.sel === id && S.mode === "ticket") renderInsp();
 
   // 2. lookup
-  step("lookup", "active"); t1 = performance.now(); await sleep(260);
+  step("lookup", "active"); t1 = performance.now(); await sleep(480);
   const lk = lookupOrder(t, tri); r.order = lk.order; r.lookup = lk.how;
   step("lookup", "done", performance.now() - t1);
+  if (S.sel === id && S.mode === "ticket") renderInsp();
+  await sleep(700);
 
   // 3. guardrails
-  step("guard", "active"); t1 = performance.now(); await sleep(180);
+  step("guard", "active"); t1 = performance.now(); await sleep(260);
   r.dec = decide(t, tri, r.order);
   step("guard", "done", performance.now() - t1);
-  renderAll();
 
   // 4. draft
   step("draft", "active"); t1 = performance.now(); r.draft = ""; r.streaming = true; renderAll();
@@ -646,10 +769,23 @@ function renderMeters(){
   const st = S.stats; const avg = st.times.length ? st.times.reduce((a,b) => a+b, 0) / st.times.length : 0;
   const open = S.tickets.filter(t => !S.res[t.id] || S.res[t.id].preview).length;
   $("#meters").innerHTML = `
-    <div class="meter"><b>${open}</b><span>Unanswered</span></div>
-    <div class="meter"><b>${st.handled}</b><span>Handled now</span></div>
+    <div class="meter"><b data-k="open"></b><span>Unanswered</span></div>
+    <div class="meter"><b data-k="handled"></b><span>Handled now</span></div>
     <div class="meter"><b>${st.auto}·${st.review}·${st.esc}</b><span>Auto·Review·Escalate</span></div>
-    <div class="meter"><b>${avg ? fmtSec(avg) : "—"}</b><span>Avg first response</span></div>`;
+    <div class="meter"><b data-k="avg"></b><span>Avg first response</span></div>`;
+  const vals = {open, handled:st.handled, avg};
+  const fmts = {open:v => Math.round(v), handled:v => Math.round(v), avg:v => v ? fmtSec(v) : "—"};
+  for (const el of document.querySelectorAll("#meters [data-k]")) {
+    const k = el.dataset.k; countUp(el, prevM[k] ?? vals[k], vals[k], fmts[k], k === "avg" ? 900 : 500); prevM[k] = vals[k];
+  }
+}
+const prevM = {};
+const REDUCE = matchMedia("(prefers-reduced-motion: reduce)").matches;
+function countUp(el, from, to, fmt, ms = 600){
+  if (from === to || REDUCE || !el) { if (el) el.textContent = fmt(to); return; }
+  const t0 = performance.now();
+  const f = now => { const p = Math.min(1, (now - t0) / ms), e = 1 - Math.pow(1 - p, 3); el.textContent = fmt(from + (to - from) * e); if (p < 1) requestAnimationFrame(f); };
+  el.textContent = fmt(from); requestAnimationFrame(f);
 }
 
 function stateChip(t){
@@ -665,10 +801,12 @@ function routeChip(r){
 }
 function renderQueue(){
   $("#qcount").textContent = `${S.tickets.length} tickets`;
-  $("#queue").innerHTML = S.tickets.map(t => {
+  $("#queue").innerHTML = S.tickets.map((t, i) => {
     const r = S.res[t.id];
+    const flash = r && r.dec && !r.preview && r.status !== "running" && !r.flashed; if (flash) r.flashed = true;
+    const flashCls = flash ? " flash " + ({AUTO:"ok", REVIEW:"warn", ESCALATE:"bad"}[r.dec.route]) : "";
     const cat = r && r.tri && !r.preview ? `<span class="chip">${CATEGORIES[r.tri.category].short}</span>` : "";
-    return `<li><button class="qi" data-id="${t.id}" aria-current="${S.mode === "ticket" && S.sel === t.id}">
+    return `<li><button class="qi${flashCls}" style="--i:${i}" data-id="${t.id}" aria-current="${S.mode === "ticket" && S.sel === t.id}">
       <div class="qrow"><span class="qname">${esc(t.name)}</span>${stateChip(t)}</div>
       <div class="qsub">${esc(t.subject)}</div>
       <div class="qtags"><span class="chip">${esc(t.channel)}</span>${cat}${routeChip(r)}</div>
@@ -676,10 +814,11 @@ function renderQueue(){
   }).join("");
 }
 
-function paintSteps(r){
+function paintSteps(r, initial){
   const el = $("#pipe"); if (!el) return;
   STEPS.forEach(([k], i) => {
     const node = el.children[i]; const s = r.steps[k];
+    if (initial && s && s.s === "done") node.dataset.settled = "1";
     node.dataset.s = s ? s.s : "idle";
     node.querySelector(".t").textContent = r.preview ? "preview" : s && s.s === "done" ? Math.round(s.ms) + " ms" : s && s.s === "active" ? "running" : "—";
   });
@@ -690,7 +829,9 @@ function renderWork(){
   if (S.mode === "compose") { w.innerHTML = composerHTML(); bindComposer(); return; }
   const t = S.tickets.find(x => x.id === S.sel); const r = S.res[t.id];
   const ran = r && !r.preview;
-  let html = `<article class="panel">
+  const swap = S.lastShown !== t.id; S.lastShown = t.id;
+  const freshDec = r && r.dec && !r.preview && !r.shownDec; if (freshDec) r.shownDec = true;
+  let html = `<article class="panel${swap ? " swap" : ""}">
     <div class="tk">
       <div class="tkh">
         <div class="av">${esc(initials(t.name))}</div>
@@ -721,7 +862,7 @@ function renderWork(){
     else if (d.route === "REVIEW") actions = `<button class="btn go" id="approve">Approve &amp; send</button><span class="note">Edit the text first if you want. ${esc(REPS[1])} is on review duty.</span>`;
     else actions = `<button class="btn go" id="approve">Send as ${esc(d.rep.split(" ")[0])}</button><span class="note">P1 · ${esc(d.rep)} owns this ticket now.</span>`;
     html += `<article class="panel">
-      <div class="dec" data-r="${d.route}">
+      <div class="dec${freshDec ? " fresh" : ""}" data-r="${d.route}">
         <span class="badge">${{AUTO:"Auto-send", REVIEW:"Rep review", ESCALATE:"Escalate"}[d.route]}</span>
         <div class="why"><b>${esc(title)}</b><span>${esc(sub)}</span></div>
       </div>
@@ -734,7 +875,7 @@ function renderWork(){
     </article>`;
   }
   w.innerHTML = html;
-  if (r) paintSteps(r);
+  if (r) paintSteps(r, true);
   $("#runbtn").onclick = () => run(t.id);
   const ap = $("#approve"); if (ap) ap.onclick = () => approve(t.id);
   const ta = $("#draft"); if (ta && !ta.readOnly) ta.oninput = () => { r.draft = ta.value; };
@@ -795,10 +936,14 @@ function renderInsp(){
     <li class="na"><span class="ic">4</span><div>Claude writes the reply using only facts from the order and the policy.</div></li></ul></div></section>`; return; }
   const t = S.tickets.find(x => x.id === S.sel); const r = S.res[t.id];
   const tri = r && r.tri, o = r && r.order;
+  const live = r && !r.preview;
+  const freshTri = live && tri && !r.shownTri; if (freshTri) r.shownTri = true;
+  const freshLabel = live && o && !r.shownLabel; if (freshLabel) r.shownLabel = true;
+  const freshChecks = live && r.dec && !r.shownChecks; if (freshChecks) r.shownChecks = true;
   let triage = `<div class="empty">Run the ticket to see how it's read.</div>`;
   if (tri) {
     const conf = Math.round(tri.confidence * 100);
-    triage = `<dl class="kv">
+    triage = `<dl class="kv${freshTri ? " fresh" : ""}">
       <dt>Topic</dt><dd><b>${CATEGORIES[tri.category].label}</b></dd>
       <dt>Confidence</dt><dd><div style="display:flex;gap:8px;align-items:center"><div class="bar" style="flex:1"><i style="width:${conf}%;background:${conf >= 75 ? "var(--ok)" : "var(--warn)"}"></i></div><span class="mono num">${conf}%</span></div></dd>
       <dt>Mood</dt><dd><div style="display:flex;gap:8px;align-items:center"><div class="sent-scale" style="flex:1"><i style="left:${(tri.sentiment + 1) * 50}%"></i></div><span class="mono num">${tri.sentiment > 0 ? "+" : ""}${tri.sentiment.toFixed(2)}</span></div></dd>
@@ -810,7 +955,7 @@ function renderInsp(){
   let label = `<div class="sec"><div class="empty">${tri ? esc(r.lookup || "No order found.") : "The order record shows up here after lookup."}</div></div>`;
   if (o) {
     const st = o.status === "delivered" ? `Delivered ${fmtDate(-o.delivered)}` : o.status === "exception" ? "Exception" : o.eta === 0 ? "Out for delivery" : `ETA ${fmtDate(o.eta)}`;
-    label = `<div class="label">
+    label = `<div class="label${freshLabel ? " fresh" : ""}">
       <div class="lh"><span>${esc(o.no)}</span><span>${esc(o.carrier)} · ${esc(st)}</span></div>
       <div class="lb">
         <div><span>Ship to</span><span>${esc(o.name)}</span></div>
@@ -823,7 +968,7 @@ function renderInsp(){
     </div>${o.synthetic ? `<div class="synth">Order numbers outside the demo store get a generated record so the flow runs end to end.</div>` : `<div class="synth">${esc(r.lookup)}</div>`}`;
   }
   let checks = `<div class="empty">Seven checks run on every ticket. The model never decides on its own what's safe to send.</div>`;
-  if (r && r.dec) checks = `<ul class="checks">${r.dec.checks.map(c => `<li class="${c.state}"><span class="ic">${{p:"✓", f:"!", w:"~", na:"–"}[c.state]}</span><div>${esc(c.label)}<small>${esc(c.note)}</small></div></li>`).join("")}</ul>`;
+  if (r && r.dec) checks = `<ul class="checks${freshChecks ? " fresh" : ""}">${r.dec.checks.map((c, i) => `<li class="${c.state}" style="--i:${i}"><span class="ic">${{p:"✓", f:"!", w:"~", na:"–"}[c.state]}</span><div>${esc(c.label)}<small>${esc(c.note)}</small></div></li>`).join("")}</ul>`;
 
   el.innerHTML = `
     <section class="panel"><div class="ph"><h2>How Claude read it</h2>${r && r.engine ? `<span class="sp chip ${r.engine === "claude" ? "ok" : "warn"}">${r.engine === "claude" ? "claude" : r.engine === "mixed" ? "claude + template" : "rules"}</span>` : ""}</div><div class="sec">${triage}</div></section>
@@ -911,14 +1056,21 @@ function fillBiz(){
     <tr><td><b>Total</b></td><td class="r"><b>1,200</b></td><td><div class="stack"><i class="a" style="width:${A / W * 100}%"></i><i class="h" style="width:${H / W * 100}%"></i></div></td><td class="mono">${Math.round(A / W * 100)}% AI · ${Math.round(H / W * 100)}% rep</td></tr>
   </tbody></table>`;
   $("#bz-load").innerHTML = `<div style="padding-top:22px"><div class="loadbar"><div class="fill" style="width:${Math.min(100, H / max * 100)}%;background:${H <= cap ? "var(--ok)" : H <= 450 ? "var(--warn)" : "var(--bad)"}"></div><div class="cap" style="left:${cap / max * 100}%"></div><div class="capl" style="left:${cap / max * 100}%">pre-holiday load · 300</div></div></div>
-    <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;margin-top:10px"><span class="big">${Math.round(H)} tickets/wk</span><span class="note">for 5 reps · ${Math.round(H / 5)} each</span></div>`;
+    <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;margin-top:10px"><span class="big"><span id="bigH">${Math.round(prevH ?? H)}</span> tickets/wk</span><span class="note">for 5 reps · ${Math.round(H / 5)} each</span></div>`;
+  countUp($("#bigH"), prevH ?? H, H, v => Math.round(v), 350); prevH = H;
+  document.querySelectorAll("#bz-table .stack i").forEach((el, i) => el.style.setProperty("--i", Math.floor(i / 2)));
 }
+let prevH = null;
 /* ---------- tabs & boot ---------- */
 function showTab(which){
   $("#tab-inbox").setAttribute("aria-selected", which === "inbox");
   $("#tab-biz").setAttribute("aria-selected", which === "biz");
   $("#inbox").hidden = which !== "inbox"; $("#biz").hidden = which !== "biz";
-  if (which === "biz") renderBiz();
+  if (which === "biz") {
+    renderBiz();
+    const root = $("#biz"); root.classList.remove("intro"); void root.offsetWidth; root.classList.add("intro");
+    clearTimeout(showTab._t); showTab._t = setTimeout(() => root.classList.remove("intro"), 1800);
+  }
 }
 $("#tab-inbox").onclick = () => showTab("inbox");
 $("#tab-biz").onclick = () => showTab("biz");
@@ -931,5 +1083,151 @@ $("#newbtn").onclick = () => { S.mode = "compose"; showTab("inbox"); renderAll()
   S.res[t.id] = {preview:true, status:"waiting", tri, order:lk.order, lookup:lk.how, dec, draft:templateReply(t, tri, lk.order, dec), engine:"rules",
     steps:Object.fromEntries(STEPS.map(([k]) => [k, {s:"done", ms:0}]))};
 })();
-renderEngine(); renderAll();
+/* ---------- run whole queue ---------- */
+let runningAll = false;
+async function runAll(){
+  if (runningAll) { runningAll = false; updateRunAll(); return; }
+  const todo = S.tickets.filter(t => !S.res[t.id] || S.res[t.id].preview);
+  if (!todo.length) { toast("Queue is already clear"); return; }
+  runningAll = true;
+  for (let i = 0; i < todo.length && runningAll; i++) {
+    S.allProg = `${i + 1}/${todo.length}`; updateRunAll();
+    S.sel = todo[i].id; S.mode = "ticket"; showTab("inbox");
+    await run(todo[i].id);
+    if (runningAll) await sleep(1100);
+  }
+  const finished = runningAll; runningAll = false; S.allProg = null; updateRunAll();
+  if (finished) toast("Queue cleared. Every customer has an answer.");
+}
+function updateRunAll(){ const b = $("#runall"); b.classList.toggle("on", runningAll); b.textContent = runningAll ? `Stop · ${S.allProg}` : "Run whole queue"; }
+
+/* ---------- pop-up ads (a gag; Premium removes them) ---------- */
+const ADS = [
+  {t:"System Alert", ico:"⚠", h:"(3) SNOWFLAKES DETECTED ON YOUR PC", m:"Lake-effect accumulation: 14 inches and rising. Run DriftCleaner 2009 now?", b:["Shovel now","Ignore"]},
+  {t:"CONGRATULATIONS!!!", ico:"★", h:"You are the 1,000,000th visitor!", m:"Claim your FREE heated gloves. Batteries and gloves not included.", b:["CLAIM PRIZE"]},
+  {t:"Hot Cocoa Near You", ico:"♨", h:"4 mugs of hot cocoa within 2 miles", m:"They want to warm your hands tonight. Marshmallows are waiting.", b:["Chat now","Not now"]},
+  {t:"Download More Ice Melt", ico:"❄", h:"Your sidewalk is 87% frozen", m:"Download 2 GB of rock salt to continue.", b:["Download"], prog:true},
+  {t:"Plow drivers HATE him", ico:"!", h:"Buffalo man clears driveway in 4 minutes", m:"With this one weird trick. Number 7 will melt your heart (and your ice dam).", b:["See the trick"]},
+  {t:"parka.exe", ico:"⟳", h:"Your parka is out of date", m:"Update to Parka 2.0, now with pockets. A restart is required.", b:["Update now","Remind me in spring"]},
+  {t:"Limited Time Offer", ico:"$", h:"FREE wings for life*", m:"*Life of the wing. Valid during blizzards only. Blue cheese sold separately.", b:["Redeem"]},
+  {t:"New match nearby ♥", ico:"♥", h:"Snowplow Steve is 0.4 miles away", m:"\"Looking for someone to clear my schedule. And your driveway.\" He's online now.", b:["Message Steve","Pass"], match:true},
+  {t:"Someone liked your profile", ico:"♥", h:"A lonely snowblower in Cheektowaga is 2 miles away", m:"Single-stage, 24 inch, starts on the first pull. Wants to meet before the next storm.", b:["See photos","Swipe left"], match:true},
+  {t:"3 new matches ♥", ico:"♥", h:"Hot singles in Orchard Park want to talk about tire chains", m:"They all have all-wheel drive and strong opinions about the Thruway.", b:["Start chatting","Not tonight"], match:true},
+];
+const TROLL = ["Nice try. That made it worse.", "Ads multiply in the cold.", "Premium makes this stop.", "That's how they get you."];
+const TROLL_MATCH = ["Steve is typing…", "It's a match. With 4 more ads.", "They saw you're on Premium-free. Bold.", "Your snowblower has been notified."];
+let premium = false; try { premium = localStorage.getItem("snowbelt-premium") === "1"; } catch {}
+let adTimer = 0, adIdx = Math.floor(Math.random() * ADS.length), zTop = 30;
+const busy = () => runningAll || Object.values(S.res).some(r => r.status === "running");
+function scheduleAd(ms){
+  clearTimeout(adTimer); if (premium) return;
+  adTimer = setTimeout(() => {
+    if (!premium && !busy() && !document.hidden && !$("#pmodal") && document.querySelectorAll(".pop").length < 3) spawnAd();
+    scheduleAd(15000 + Math.random() * 18000);
+  }, ms);
+}
+function spawnAd(ad, x, y){
+  if (premium || document.querySelectorAll(".pop:not(.closing):not(.bye)").length >= 6) return;
+  ad = ad || ADS[adIdx++ % ADS.length];
+  const el = document.createElement("div"); el.className = "pop" + (ad.match ? " match" : ""); el.setAttribute("role", "dialog"); el.setAttribute("aria-label", ad.t);
+  el.innerHTML = `<div class="tb"><span>${esc(ad.t)}</span><button class="x" type="button" aria-label="Close">×</button></div>
+    <div class="pb"><div class="ico" aria-hidden="true">${ad.ico}</div><div class="msg"><b>${esc(ad.h)}</b>${esc(ad.m)}${ad.prog ? '<div class="prog"><i></i></div>' : ""}</div></div>
+    <div class="pa">${ad.b.map((b, i) => `<button type="button" class="${i === 0 ? "def" : ""}" data-i="${i}">${esc(b)}</button>`).join("")}</div>
+    <div class="pf"><span>Advertisement</span><a data-prem tabindex="0">Remove ads with Premium</a></div>`;
+  document.body.appendChild(el);
+  const w = el.offsetWidth, h = el.offsetHeight;
+  const clampX = v => Math.max(8, Math.min(innerWidth - w - 8, v)), clampY = v => Math.max(8, Math.min(innerHeight - h - 8, v));
+  el.style.left = clampX(x ?? 16 + Math.random() * (innerWidth - w - 32)) + "px";
+  el.style.top = clampY(y ?? 16 + Math.random() * (innerHeight - h - 32)) + "px";
+  el.style.zIndex = ++zTop;
+  el.addEventListener("pointerdown", () => { el.style.zIndex = ++zTop; });
+  el.querySelector(".x").onclick = () => {
+    if (!el.dataset.dodged && Math.random() < 0.3) { // the close button runs away once, sometimes
+      el.dataset.dodged = "1"; el.style.transition = "left .22s, top .22s";
+      el.style.left = clampX(Math.random() * innerWidth) + "px"; el.style.top = clampY(Math.random() * innerHeight) + "px";
+      setTimeout(() => { el.style.transition = ""; }, 260); return;
+    }
+    closeAd(el);
+  };
+  el.querySelectorAll(".pa button").forEach(b => b.onclick = () => {
+    if (ad.b.length > 1 && +b.dataset.i === ad.b.length - 1) { closeAd(el); return; }
+    el.classList.remove("shake"); void el.offsetWidth; el.classList.add("shake");
+    const lines = ad.match ? TROLL_MATCH : TROLL; toast(lines[Math.floor(Math.random() * lines.length)]);
+    const r = el.getBoundingClientRect();
+    spawnAd(null, r.left + 34, r.top + 34);
+    setTimeout(() => spawnAd(null, r.left - 44, r.top + 70), 180);
+  });
+  const pl = el.querySelector("[data-prem]"); pl.onclick = openPremium; pl.onkeydown = e => { if (e.key === "Enter") openPremium(); };
+  dragAd(el);
+}
+function closeAd(el){ el.classList.add("closing"); setTimeout(() => el.remove(), 170); }
+function dragAd(el){
+  const tb = el.querySelector(".tb"); let sx = null, sy, ox, oy;
+  tb.addEventListener("pointerdown", e => { if (e.target.closest(".x")) return; sx = e.clientX; sy = e.clientY; ox = el.offsetLeft; oy = el.offsetTop; tb.setPointerCapture(e.pointerId); tb.style.cursor = "grabbing"; });
+  tb.addEventListener("pointermove", e => { if (sx === null) return; el.style.left = Math.max(60 - el.offsetWidth, Math.min(innerWidth - 60, ox + e.clientX - sx)) + "px"; el.style.top = Math.max(0, Math.min(innerHeight - 30, oy + e.clientY - sy)) + "px"; });
+  const up = () => { sx = null; tb.style.cursor = ""; };
+  tb.addEventListener("pointerup", up); tb.addEventListener("pointercancel", up);
+}
+function renderPremBtn(){ const b = $("#premium"); b.classList.toggle("on", premium); b.textContent = premium ? "★ Premium" : "★ Remove ads"; }
+function setPremium(on){
+  premium = on; try { localStorage.setItem("snowbelt-premium", on ? "1" : "0"); } catch {}
+  renderPremBtn();
+  if (on) { clearTimeout(adTimer); [...document.querySelectorAll(".pop")].forEach((p, i) => { p.style.animationDelay = i * 80 + "ms"; p.classList.add("bye"); setTimeout(() => p.remove(), 500 + i * 80); }); }
+  else { spawnAd(); scheduleAd(12000); }
+}
+function closeModal(){ const m = $("#pmodal"); if (m) m.remove(); }
+function openPremium(){
+  closeModal();
+  const m = document.createElement("div"); m.className = "modal"; m.id = "pmodal";
+  m.innerHTML = `<div class="pm" role="dialog" aria-modal="true" aria-labelledby="pm-t">
+    <div class="pmh"><h2 id="pm-t">Snowbelt Premium</h2><p>${premium ? "You're Premium. Your screen is plowed." : "Your screen is snowed in with ads. Let's plow it."}</p></div>
+    <ul><li>No pop-up ads, ever</li><li>Zero snowflakes on your PC</li><li>Priority plowing for your driveway (not really)</li></ul>
+    <div class="price"><s>$4.99/mo</s><b>$0.00</b><span class="note">free during the Promptathon</span></div>
+    <div class="pmf">
+      ${premium ? `<button class="btn" id="pm-cancel" type="button">Cancel Premium and bring the ads back</button>` : `<button class="btn primary" id="pm-pay" type="button">Pay with 1 snow shovel</button>`}
+      <button class="btn" id="pm-close" type="button">${premium ? "Close" : "No thanks, I love ads"}</button>
+      <div class="fine">It's a joke. No payment is collected and no card is needed.</div>
+    </div></div>`;
+  document.body.appendChild(m);
+  m.onclick = e => { if (e.target === m) closeModal(); };
+  $("#pm-close").onclick = () => { closeModal(); if (!premium) { toast("Bold choice."); spawnAd(); } };
+  const pay = $("#pm-pay");
+  if (pay) pay.onclick = async () => {
+    pay.disabled = true; pay.innerHTML = `<span class="spin"></span> Processing shovel…`;
+    await sleep(1300); pay.textContent = "✓ Payment approved"; await sleep(650);
+    closeModal(); setPremium(true); toast("Premium unlocked. Ads plowed.");
+  };
+  const cancel = $("#pm-cancel");
+  if (cancel) cancel.onclick = () => { closeModal(); setPremium(false); toast("The ads are back. You asked for this."); };
+  (pay || cancel).focus();
+}
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
+
+/* ---------- lake-effect snow in the header ---------- */
+(function snow(){
+  const c = $("#snow"), top = $(".top"); if (!c || !c.getContext) return;
+  const ctx = c.getContext("2d"), dpr = Math.min(2, window.devicePixelRatio || 1);
+  let W = 0, H = 0, flakes = [], raf = 0;
+  const tone = () => getComputedStyle(document.documentElement).getPropertyValue("--ink-3").trim() || "#7b8999";
+  let color = tone();
+  function size(){ const r = top.getBoundingClientRect(); W = r.width; H = r.height; c.width = W * dpr; c.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); }
+  function seed(){ flakes = Array.from({length:Math.round(W / 12)}, () => ({x:Math.random() * W, y:Math.random() * H, r:.5 + Math.random() * 1.7, s:.18 + Math.random() * .5, d:Math.random() * 6.28})); }
+  function draw(){ ctx.clearRect(0, 0, W, H); ctx.fillStyle = color; for (const f of flakes) { ctx.globalAlpha = .18 + f.r * .2; ctx.beginPath(); ctx.arc(f.x, f.y, f.r, 0, 6.283); ctx.fill(); } ctx.globalAlpha = 1; }
+  function tick(){
+    for (const f of flakes) { f.d += .012; f.y += f.s; f.x += f.s * .9 + Math.sin(f.d) * .25; if (f.y > H + 3) { f.y = -3; f.x = Math.random() * W - 20; } if (f.x > W + 3) f.x = -3; }
+    draw(); raf = !REDUCE && !document.hidden ? requestAnimationFrame(tick) : 0;
+  }
+  size(); seed(); draw(); if (!REDUCE) raf = requestAnimationFrame(tick);
+  new ResizeObserver(() => { size(); seed(); draw(); }).observe(top);
+  document.addEventListener("visibilitychange", () => { if (!document.hidden && !raf && !REDUCE) raf = requestAnimationFrame(tick); });
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { color = tone(); });
+  new MutationObserver(() => { color = tone(); }).observe(document.documentElement, {attributes:true, attributeFilter:["data-theme"]});
+})();
+
+document.body.classList.add("boot");
+renderEngine(); renderAll(); renderPremBtn();
+setTimeout(() => document.body.classList.remove("boot"), 1800);
+$("#runall").onclick = runAll;
+$("#premium").onclick = openPremium;
+scheduleAd(8000);
 </script>
