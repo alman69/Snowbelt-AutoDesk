@@ -1209,8 +1209,6 @@ const ADS = [
   {kind:"match", who:"Lonely Snowblower", age:6, mi:"2.1", town:"Tonawanda, NY", msg:"single-stage, 24 inch, starts on the first pull 😉", n:5},
   {kind:"match", who:"Frosty", age:"??", mi:"0.1", town:"your front yard", msg:"i've been watching u shovel 👀", n:1},
 ];
-const TROLL = ["Nice try. That made it worse.", "Ads multiply in the cold.", "Premium makes this stop.", "That's how they get you."];
-const TROLL_MATCH = ["Steve is typing…", "It's a match. With 4 more ads.", "They can tell you don't have Premium.", "Your snowblower has been notified."];
 let premium = false; try { premium = localStorage.getItem("snowbelt-premium") === "1"; } catch {}
 let adTimer = 0, adIdx = Math.floor(Math.random() * ADS.length), zTop = 30;
 const busy = () => runningAll || Object.values(S.res).some(r => r.status === "running");
@@ -1296,7 +1294,7 @@ function openPremiumGate(){
   const paint = () => { if (left > 0) { btn.disabled = true; btn.innerHTML = `Checkout in <b>${left}</b>s`; } else { btn.disabled = false; btn.textContent = "Continue to Premium ▶"; } };
   const iv = setInterval(() => { if (!document.body.contains(g)) { clearInterval(iv); return; } if (left > 0) { left--; paint(); } }, 1000);
   g.querySelectorAll("[data-cta]").forEach(b => b.onclick = () => {
-    left += 3; paint(); toast("Ad clicked. +3 seconds.");
+    left += 3; paint();
     const p = b.closest(".pop"); p.classList.remove("shake"); void p.offsetWidth; p.classList.add("shake");
   });
   btn.onclick = () => { if (left > 0) return; clearInterval(iv); g.remove(); openPremium(); };
@@ -1327,7 +1325,6 @@ function spawnAd(ad, x, y){
   el.querySelectorAll("[data-no]").forEach(b => b.onclick = () => closeAd(el));
   el.querySelectorAll("[data-cta]").forEach(b => b.onclick = () => {
     el.classList.remove("shake"); void el.offsetWidth; el.classList.add("shake");
-    const lines = ad.kind === "match" || ad.kind === "chat" ? TROLL_MATCH : TROLL; toast(lines[Math.floor(Math.random() * lines.length)]);
     const r = el.getBoundingClientRect();
     spawnAd(null, r.left + 34, r.top + 34);
     setTimeout(() => spawnAd(null, r.left - 44, r.top + 70), 180);
@@ -1370,7 +1367,7 @@ function openPremium(){
     </div></div>`;
   document.body.appendChild(m);
   m.onclick = e => { if (e.target === m) closeModal(); };
-  $("#pm-close").onclick = () => { closeModal(); if (!premium) { toast("Bold choice."); spawnAd(); } };
+  $("#pm-close").onclick = () => { closeModal(); if (!premium) spawnAd(); };
   const pay = $("#pm-pay");
   if (pay) pay.onclick = async () => {
     pay.disabled = true; pay.innerHTML = `<span class="spin"></span> Charging $999…`;
