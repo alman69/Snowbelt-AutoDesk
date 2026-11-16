@@ -23,7 +23,7 @@ The **Business case** tab shows the numbers. About 76% of tickets get answered i
 
 **Run whole queue** processes every open ticket one after another, so you can watch the backlog clear.
 
-**Pop-up ads (a gag):** retro "virus" ads and winter-themed dating ads appear every 15–35 seconds. They pause while a ticket is running. Click **★ Remove ads** and "pay with 1 snow shovel" to turn on Premium, which plows the ads away. It's a joke: no payment is collected. Your browser remembers Premium, and you can cancel it from the same button to bring the ads back.
+**Pop-up ads (a gag):** sketchy ad-network-style pop-ups appear every 15–35 seconds and pause while a ticket is running. There are six kinds: a "virus" alert, a prize wheel, a dating "match" nearby, a fake download, a "1 weird trick" before/after, and a chat bubble. All of them are winter jokes with no real brands. Click **★ Remove ads** to sit through a 10-second ad wall (each ad click adds 3 seconds), then subscribe to Premium for "$999/month", which plows the ads away. It's a joke: there are no card fields and nothing is charged. Your browser remembers Premium, and you can cancel it from the same button to bring the ads back. Press Esc to skip the ad wall.
 
 ## Running it
 

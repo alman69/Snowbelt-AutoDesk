@@ -11,8 +11,8 @@
   --plow:#d9530c; --plow-ink:#ffffff; --plow-soft:#fbe7db;
   --ok:#17804f; --ok-bg:#dff2e8; --warn:#9a6410; --warn-bg:#f8ecd2; --bad:#bf2f25; --bad-bg:#fae2df;
   --focus:#2563d6;
-  /* retro pop-up ads: one deliberate look in both themes */
-  --pop-face:#d4d0c8; --pop-dark:#808080; --pop-white:#ffffff; --pop-ink:#000000; --pop-t1:#0a246a; --pop-t2:#3a6ea5; --pop-m1:#b0124f; --pop-m2:#e0457b;
+  /* gag ads: one deliberate look in both themes */
+  --sc-paper:#ffffff; --sc-ink:#111111; --sc-grey:#7a7a7a; --sc-light:#efefef; --sc-red:#e00b0b; --sc-red2:#ff4d3d; --sc-yellow:#ffe600; --sc-orange:#ff9d00; --sc-green:#119c2b; --sc-green2:#3fd35a; --sc-pink:#e8136f; --sc-pink2:#ff5fa2; --sc-blue:#0645ad; --sc-sky:#8fb3d9; --sc-skin:#d9a07a; --sc-shirt:#6d2f55; --sc-plum:#4b2a86;
   --display:"Archivo", "Helvetica Neue", Arial, sans-serif;
   --body:"Archivo", "Helvetica Neue", Arial, sans-serif;
   --mono:"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
@@ -301,34 +301,130 @@ details.raw pre{margin:0;padding:0 14px 14px;font-family:var(--mono);font-size:1
 #biz.intro .stack i{animation:fill 1s cubic-bezier(.2,.7,.2,1) backwards;animation-delay:calc(var(--i, 0) * 90ms + .3s)}
 #biz.intro .loadbar .fill{animation:fill 1s .4s cubic-bezier(.2,.7,.2,1) backwards}
 
-/* ---------- pop-up ads (gag) ---------- */
-.pop{position:fixed;z-index:30;width:min(320px,calc(100vw - 32px));background:var(--pop-face);color:var(--pop-ink);border:2px solid;border-color:var(--pop-white) var(--pop-dark) var(--pop-dark) var(--pop-white);box-shadow:1px 1px 0 var(--pop-ink),8px 10px 0 rgba(0,0,0,.22);font-family:Tahoma,Verdana,"Segoe UI",sans-serif;font-size:12px;line-height:1.35;animation:popin .32s cubic-bezier(.3,1.5,.5,1)}
-.pop .tb{display:flex;align-items:center;gap:6px;padding:3px 3px 3px 6px;background:linear-gradient(90deg,var(--pop-t1),var(--pop-t2));color:var(--pop-white);font-weight:700;cursor:grab;user-select:none;touch-action:none}
-.pop .tb span{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pop .x,.pop .pa button{background:var(--pop-face);color:var(--pop-ink);border:2px solid;border-color:var(--pop-white) var(--pop-dark) var(--pop-dark) var(--pop-white);cursor:pointer;font:inherit}
-.pop .x{width:20px;height:18px;padding:0;line-height:12px;font-weight:700;font-size:13px}
-.pop .x:active,.pop .pa button:active{border-color:var(--pop-dark) var(--pop-white) var(--pop-white) var(--pop-dark)}
-.pop .pb{display:flex;gap:12px;padding:14px 12px 10px}
-.pop .ico{font-size:28px;line-height:1;flex:none;width:32px;text-align:center;font-weight:700;color:var(--pop-t1)}
-.pop.match .tb{background:linear-gradient(90deg,var(--pop-m1),var(--pop-m2))}
-.pop.match .ico{color:var(--pop-m1);animation:beat 1s ease-in-out infinite}
-@keyframes beat{0%,100%{transform:scale(1)}15%{transform:scale(1.25)}30%{transform:scale(1)}45%{transform:scale(1.15)}}
-.pop .msg b{display:block;font-size:13px;margin-bottom:4px}
-.pop .pa{display:flex;gap:8px;justify-content:flex-end;padding:0 12px 10px;flex-wrap:wrap}
-.pop .pa button{min-width:78px;padding:4px 10px}
-.pop .pa button.def{outline:1px dotted var(--pop-ink);outline-offset:-5px;font-weight:700}
-.pop .pf{border-top:1px solid var(--pop-dark);padding:5px 10px;font-size:11px;display:flex;justify-content:space-between;gap:8px}
-.pop .pf a{color:var(--pop-t1);cursor:pointer;text-decoration:underline}
-.pop .prog{height:14px;border:1px solid var(--pop-dark);background:var(--pop-white);margin-top:8px;padding:1px;overflow:hidden}
-.pop .prog i{display:block;height:100%;width:30%;background:repeating-linear-gradient(90deg,var(--pop-t1) 0 8px,transparent 8px 10px);animation:prog 3s steps(12,end) infinite}
-@keyframes prog{from{width:4%}to{width:99%}}
+/* ---------- pop-up ads (gag): styled after sketchy ad networks, all winter jokes, no real brands ---------- */
+.pop{position:fixed;z-index:30;width:min(340px,calc(100vw - 24px));background:var(--sc-paper);color:var(--sc-ink);font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.3;border:3px solid var(--sc-red);box-shadow:0 14px 44px rgba(0,0,0,.5),0 0 0 1px rgba(0,0,0,.25);animation:popin .3s cubic-bezier(.3,1.5,.5,1);overflow:hidden}
+.pop [data-drag]{cursor:grab;user-select:none;touch-action:none}
+.pop .x{position:absolute;top:5px;right:5px;width:19px;height:19px;border-radius:50%;border:0;background:var(--sc-ink);color:var(--sc-paper);opacity:.5;font:700 13px/19px Arial,sans-serif;cursor:pointer;padding:0;z-index:5}
+.pop .x.wait{width:auto;padding:0 8px;border-radius:10px;font-size:10px;opacity:.75;cursor:not-allowed}
+.pop .x.left{left:5px;right:auto}
+.pop .cd{font-family:"Courier New",monospace;font-weight:700;background:var(--sc-ink);color:var(--sc-yellow);padding:0 4px}
+.sc-impact{font-family:Impact,"Arial Black","Helvetica Neue",sans-serif;font-weight:900;text-transform:uppercase;letter-spacing:.01em}
+.cta{display:block;width:100%;border:0;cursor:pointer;font:900 16px/1 "Arial Black",Arial,sans-serif;padding:13px 10px;border-radius:4px;color:var(--sc-paper);text-transform:uppercase;letter-spacing:.02em;box-shadow:0 3px 0 rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.35);text-shadow:0 1px 1px rgba(0,0,0,.35);animation:throb 1.1s ease-in-out infinite}
+.cta.green{background:linear-gradient(var(--sc-green2),var(--sc-green))}
+.cta.pink{background:linear-gradient(var(--sc-pink2),var(--sc-pink))}
+.cta.red{background:linear-gradient(var(--sc-red2),var(--sc-red))}
+@keyframes throb{50%{transform:scale(1.04)}}
+.tinylink{display:block;margin:2px auto 0;border:0;background:none;color:var(--sc-grey);font-size:10px;text-decoration:underline;cursor:pointer;padding:2px}
+.adfoot{border-top:1px solid var(--sc-light);padding:4px 8px;font-size:9.5px;color:var(--sc-grey);display:flex;justify-content:space-between;gap:8px;background:var(--sc-paper)}
+.adfoot a{color:var(--sc-blue);cursor:pointer;text-decoration:underline}
+
+.pop.virus{border-color:var(--sc-red)}
+.virus .sc-top{background:var(--sc-red);color:var(--sc-paper);padding:8px 92px 8px 10px;font-size:16px;animation:alarm .5s steps(2) infinite}
+@keyframes alarm{50%{background:var(--sc-yellow);color:var(--sc-red)}}
+.virus .sc-body{padding:10px 12px 12px;display:grid;gap:8px}
+.virus .vbig{font-size:19px;color:var(--sc-red);line-height:1.05}
+.scan{height:13px;background:var(--sc-light);border:1px solid var(--sc-grey)}
+.scan i{display:block;height:100%;background:repeating-linear-gradient(45deg,var(--sc-red) 0 8px,var(--sc-red2) 8px 16px);animation:scan 2.4s linear infinite}
+@keyframes scan{from{width:5%}to{width:100%}}
+.files{list-style:none;margin:0;padding:6px 8px;background:var(--sc-ink);color:var(--sc-green2);font:11px/1.5 "Courier New",monospace}
+.files b{color:var(--sc-red2)}
+
+.pop.winner{border-color:var(--sc-red);background:var(--sc-yellow)}
+.winner .rays{position:absolute;inset:-60%;background:repeating-conic-gradient(var(--sc-yellow) 0 12deg,var(--sc-orange) 12deg 24deg);animation:spin 14s linear infinite}
+.winner .inner{position:relative;padding:14px 14px 12px;text-align:center;display:grid;gap:9px;justify-items:center}
+.winner h3{margin:0;font-size:27px;color:var(--sc-red);text-shadow:2px 2px 0 var(--sc-paper),4px 4px 0 rgba(0,0,0,.25);animation:throb .8s ease-in-out infinite}
+.winner p{margin:0;background:var(--sc-paper);padding:6px 9px;border-radius:4px;font-weight:700}
+.winner .hot{color:var(--sc-red)}
+.winner .adfoot{position:relative}
+.wheel{width:96px;height:96px;border-radius:50%;border:4px solid var(--sc-paper);box-shadow:0 0 0 3px var(--sc-red),0 6px 14px rgba(0,0,0,.3);background:conic-gradient(var(--sc-red) 0 45deg,var(--sc-paper) 0 90deg,var(--sc-blue) 0 135deg,var(--sc-yellow) 0 180deg,var(--sc-green) 0 225deg,var(--sc-paper) 0 270deg,var(--sc-pink) 0 315deg,var(--sc-orange) 0 360deg);animation:spin .9s linear infinite}
+
+.pop.match{border:0;border-radius:14px}
+.match .photo{height:160px;position:relative;overflow:hidden}
+.match .blur{position:absolute;inset:-14px;background:radial-gradient(circle at 50% 36%,var(--sc-skin) 0 17%,transparent 18%),radial-gradient(ellipse at 50% 100%,var(--sc-shirt) 0 40%,transparent 41%),linear-gradient(160deg,var(--sc-pink2),var(--sc-plum));filter:blur(9px)}
+.match .dist{position:absolute;top:10px;left:10px;background:var(--sc-paper);color:var(--sc-ink);border-radius:999px;padding:3px 9px;font-weight:700;font-size:12px}
+.match .lock{position:absolute;left:0;right:0;bottom:10px;text-align:center;color:var(--sc-paper);font-weight:700;font-size:12px;text-shadow:0 1px 3px rgba(0,0,0,.7)}
+.match .inner,.chat .inner{padding:10px 14px 12px;display:grid;gap:7px}
+.match .newmsg{font-size:11px;color:var(--sc-pink);font-weight:800;text-transform:uppercase;letter-spacing:.04em}
+.match .nm{font-size:19px;font-weight:800;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.match .nm small{font-size:11px;font-weight:600;color:var(--sc-green)}
+.match .town{color:var(--sc-grey);font-size:12px;margin-top:-4px}
+.on-dot{width:9px;height:9px;border-radius:50%;background:var(--sc-green);animation:blink 1s steps(2) infinite}
+.bubble{background:var(--sc-light);border-radius:14px 14px 14px 4px;padding:8px 11px;justify-self:start;max-width:92%}
+.match .x{background:transparent;opacity:.95;font-size:16px}
+
+.pop.download{border:1px solid var(--sc-grey);border-radius:3px}
+.download .inner{padding:16px 14px 12px;display:grid;gap:8px;text-align:center}
+.download .dlh{font-size:20px;color:var(--sc-ink)}
+.download .fname{font:700 13px "Courier New",monospace;background:var(--sc-light);padding:7px;border:1px dashed var(--sc-grey)}
+.download .stars{color:var(--sc-orange);letter-spacing:2px;font-size:14px}
+.download .stars span{color:var(--sc-grey);letter-spacing:0;font-size:11px}
+.download .cta{font-size:22px;padding:17px}
+.download .badges{font-size:11px;color:var(--sc-green);font-weight:700}
+
+.pop.trick{border:1px solid var(--sc-grey)}
+.trick .img{height:130px;position:relative;background:radial-gradient(circle at 70% 70%,var(--sc-paper) 0 22%,transparent 23%),radial-gradient(circle at 25% 75%,var(--sc-paper) 0 18%,transparent 19%),linear-gradient(180deg,var(--sc-sky),var(--sc-paper) 75%)}
+.trick .kicker{display:inline-block;background:var(--sc-red);color:var(--sc-paper);font-size:12px;padding:2px 7px;margin:10px 12px 4px}
+.trick h4{margin:0 12px;font:700 19px/1.15 Georgia,"Times New Roman",serif}
+.trick .src{margin:5px 12px 10px;font-size:11px;color:var(--sc-grey)}
+.trick .cta{margin:0 12px 10px;width:calc(100% - 24px)}
+
+.pop.chat{border:0;border-radius:12px;width:min(290px,calc(100vw - 24px));animation:slidein .5s cubic-bezier(.2,.9,.3,1.2)}
+@keyframes slidein{from{transform:translateY(130%);opacity:0}}
+.chat .hd{background:var(--sc-pink);color:var(--sc-paper);padding:10px 34px 10px 12px;font-weight:800}
+.chat .typing{display:inline-flex;gap:4px;background:var(--sc-light);padding:9px 11px;border-radius:12px;justify-self:start}
+.chat .typing i{width:6px;height:6px;border-radius:50%;background:var(--sc-grey);animation:dot 1s infinite}
+.chat .typing i:nth-child(2){animation-delay:.15s}
+.chat .typing i:nth-child(3){animation-delay:.3s}
+@keyframes dot{30%{transform:translateY(-4px);opacity:.5}}
+
 .pop.shake{animation:shake .4s}
 .pop.closing{animation:popout .16s ease-in forwards}
 .pop.bye{animation:bye .45s cubic-bezier(.5,0,.9,.4) forwards}
 @keyframes popin{from{opacity:0;transform:scale(.55)}}
 @keyframes popout{to{opacity:0;transform:scale(.85)}}
-@keyframes shake{20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
+@keyframes shake{20%,60%{transform:translateX(-7px) rotate(-1deg)}40%,80%{transform:translateX(7px) rotate(1deg)}}
 @keyframes bye{to{opacity:0;transform:translateX(110vw) rotate(10deg)}}
+
+/* bigger ads + pictures */
+.pop{width:min(420px,calc(100vw - 24px));font-size:14px}
+.cta{font-size:19px;padding:15px 10px}
+.art{display:block;flex:none}
+.vrow{display:flex;gap:12px;align-items:center}
+.vrow .art{width:86px;height:94px;animation:throb .9s ease-in-out infinite}
+.virus .vbig{font-size:24px}
+.vsub{font-weight:700;margin-top:5px}
+.winner h3{font-size:34px}
+.prize{display:flex;gap:16px;align-items:center;justify-content:center}
+.prize .art{width:120px;height:112px;animation:wiggle 1.2s ease-in-out infinite}
+@keyframes wiggle{25%{transform:rotate(-7deg)}75%{transform:rotate(7deg)}}
+.match .photo{height:230px}
+.match .blur svg{position:absolute;inset:0;width:100%;height:100%}
+.download .dlrow{display:flex;gap:12px;align-items:center;text-align:left}
+.download .art{width:132px;height:124px;animation:wiggle 2s ease-in-out infinite}
+.download .dlinfo{display:grid;gap:6px;min-width:0}
+.download .fname{overflow-wrap:anywhere}
+.trick .img{height:auto;background:none;position:relative}
+.trick .img > svg:first-child{display:block;width:100%;height:auto}
+.tvburst{position:absolute;right:8px;bottom:-14px;width:84px;height:84px;transform:rotate(-12deg);animation:tvpulse .9s ease-in-out infinite}
+@keyframes tvpulse{50%{transform:rotate(-12deg) scale(1.12)}}
+.trick .kicker{margin-top:16px}
+.trick h4{font-size:22px}
+.crow{display:flex;gap:10px;align-items:flex-end}
+.crow .art{width:48px;height:48px}
+
+/* the 10-second ad wall before checkout */
+.gate{position:fixed;inset:0;z-index:1000;background:rgba(5,8,12,.94);display:flex;flex-direction:column;gap:14px;overflow:auto;animation:fadein .2s;padding-block:max(14px,env(safe-area-inset-top,0px)) 24px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.gate-bar{display:flex;align-items:center;gap:12px;justify-content:space-between;flex-wrap:wrap;color:var(--sc-paper);font:600 12px Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase;max-width:1320px;width:100%;margin:0 auto}
+.gate-skip{border:1px solid var(--sc-paper);background:rgba(0,0,0,.55);color:var(--sc-paper);padding:11px 18px;font:700 15px Arial,sans-serif;border-radius:4px;letter-spacing:0;text-transform:none;cursor:pointer}
+.gate-skip b{font-family:"Courier New",monospace;font-size:18px;color:var(--sc-yellow)}
+.gate-skip[disabled]{cursor:not-allowed}
+.gate-skip:not([disabled]){background:var(--sc-yellow);color:var(--sc-ink);border-color:var(--sc-yellow);animation:throb 1s ease-in-out infinite}
+.gate-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:18px;align-items:start;max-width:1320px;width:100%;margin:0 auto}
+.gate .pop{position:relative;width:auto;left:auto;top:auto;z-index:auto;animation:popin .45s cubic-bezier(.3,1.5,.5,1) backwards}
+.gate .pop:nth-child(2){animation-delay:.12s}
+.gate .pop:nth-child(3){animation-delay:.24s}
+.gate .pop.shake{animation:shake .4s}
+.gate .x,.gate .adfoot a,.gate .tinylink{display:none}
 
 .btn.sm.prem{border-color:var(--plow);color:var(--plow)}
 .btn.sm.prem.on{background:var(--plow);color:var(--plow-ink)}
@@ -343,6 +439,7 @@ details.raw pre{margin:0;padding:0 14px 14px;font-family:var(--mono);font-size:1
 .pm .price{padding:4px 22px 0;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
 .pm .price b{font-family:var(--display);font-stretch:118%;font-size:30px;font-weight:800}
 .pm .price s{color:var(--ink-3)}
+.pm .price .per{color:var(--ink-2);font-weight:600;margin-left:-6px}
 .pmf{padding:14px 22px 20px;display:grid;gap:8px}
 .pmf .btn{justify-content:center}
 .pmf .btn[disabled]{opacity:1}
@@ -1103,45 +1200,123 @@ function updateRunAll(){ const b = $("#runall"); b.classList.toggle("on", runnin
 
 /* ---------- pop-up ads (a gag; Premium removes them) ---------- */
 const ADS = [
-  {t:"System Alert", ico:"⚠", h:"(3) SNOWFLAKES DETECTED ON YOUR PC", m:"Lake-effect accumulation: 14 inches and rising. Run DriftCleaner 2009 now?", b:["Shovel now","Ignore"]},
-  {t:"CONGRATULATIONS!!!", ico:"★", h:"You are the 1,000,000th visitor!", m:"Claim your FREE heated gloves. Batteries and gloves not included.", b:["CLAIM PRIZE"]},
-  {t:"Hot Cocoa Near You", ico:"♨", h:"4 mugs of hot cocoa within 2 miles", m:"They want to warm your hands tonight. Marshmallows are waiting.", b:["Chat now","Not now"]},
-  {t:"Download More Ice Melt", ico:"❄", h:"Your sidewalk is 87% frozen", m:"Download 2 GB of rock salt to continue.", b:["Download"], prog:true},
-  {t:"Plow drivers HATE him", ico:"!", h:"Buffalo man clears driveway in 4 minutes", m:"With this one weird trick. Number 7 will melt your heart (and your ice dam).", b:["See the trick"]},
-  {t:"parka.exe", ico:"⟳", h:"Your parka is out of date", m:"Update to Parka 2.0, now with pockets. A restart is required.", b:["Update now","Remind me in spring"]},
-  {t:"Limited Time Offer", ico:"$", h:"FREE wings for life*", m:"*Life of the wing. Valid during blizzards only. Blue cheese sold separately.", b:["Redeem"]},
-  {t:"New match nearby ♥", ico:"♥", h:"Snowplow Steve is 0.4 miles away", m:"\"Looking for someone to clear my schedule. And your driveway.\" He's online now.", b:["Message Steve","Pass"], match:true},
-  {t:"Someone liked your profile", ico:"♥", h:"A lonely snowblower in Cheektowaga is 2 miles away", m:"Single-stage, 24 inch, starts on the first pull. Wants to meet before the next storm.", b:["See photos","Swipe left"], match:true},
-  {t:"3 new matches ♥", ico:"♥", h:"Hot singles in Orchard Park want to talk about tire chains", m:"They all have all-wheel drive and strong opinions about the Thruway.", b:["Start chatting","Not tonight"], match:true},
+  {kind:"virus"},
+  {kind:"match", who:"Snowplow Steve", age:34, mi:"0.4", town:"Cheektowaga, NY", msg:"hey neighbor 👋 u up? i'll do ur driveway for free 😏", n:3},
+  {kind:"winner"},
+  {kind:"download"},
+  {kind:"chat", who:"Hot Cocoa", mi:"1.3", msg:"marshmallows r waiting... u coming over? ☕"},
+  {kind:"trick"},
+  {kind:"match", who:"Lonely Snowblower", age:6, mi:"2.1", town:"Tonawanda, NY", msg:"single-stage, 24 inch, starts on the first pull 😉", n:5},
+  {kind:"match", who:"Frosty", age:"??", mi:"0.1", town:"your front yard", msg:"i've been watching u shovel 👀", n:1},
 ];
 const TROLL = ["Nice try. That made it worse.", "Ads multiply in the cold.", "Premium makes this stop.", "That's how they get you."];
-const TROLL_MATCH = ["Steve is typing…", "It's a match. With 4 more ads.", "They saw you're on Premium-free. Bold.", "Your snowblower has been notified."];
+const TROLL_MATCH = ["Steve is typing…", "It's a match. With 4 more ads.", "They can tell you don't have Premium.", "Your snowblower has been notified."];
 let premium = false; try { premium = localStorage.getItem("snowbelt-premium") === "1"; } catch {}
 let adTimer = 0, adIdx = Math.floor(Math.random() * ADS.length), zTop = 30;
 const busy = () => runningAll || Object.values(S.res).some(r => r.status === "running");
 function scheduleAd(ms){
   clearTimeout(adTimer); if (premium) return;
   adTimer = setTimeout(() => {
-    if (!premium && !busy() && !document.hidden && !$("#pmodal") && document.querySelectorAll(".pop").length < 3) spawnAd();
+    if (!premium && !busy() && !document.hidden && !$("#pmodal") && !$("#pgate") && document.querySelectorAll("body > .pop").length < 3) spawnAd();
     scheduleAd(15000 + Math.random() * 18000);
   }, ms);
 }
+const FOOT = `<div class="adfoot"><span>Sponsored · AdChoices ▷</span><a data-prem tabindex="0">Remove ads with Premium</a></div>`;
+const K = "stroke:var(--sc-ink);stroke-width:3;stroke-linejoin:round";
+const burst = (cx, cy, r1, r2, n, fill, label, fs) => { let d = ""; for (let i = 0; i < n * 2; i++) { const r = i % 2 ? r2 : r1, a = Math.PI * i / n; d += (i ? "L" : "M") + (cx + r * Math.cos(a)).toFixed(1) + " " + (cy + r * Math.sin(a)).toFixed(1); }
+  return `<path d="${d}Z" style="fill:var(${fill});${K}"/><text x="${cx}" y="${cy + fs * .35}" text-anchor="middle" style="font:900 ${fs}px Impact,'Arial Black',sans-serif;fill:var(--sc-red)">${label}</text>`; };
+const ART = {
+  shield:`<svg class="art" viewBox="0 0 120 130" aria-hidden="true"><path d="M60 6 L110 24 V62 C110 96 86 116 60 126 C34 116 10 96 10 62 V24 Z" style="fill:var(--sc-red);${K}"/><path d="M60 18 L98 32 V62 C98 88 80 104 60 112 Z" style="fill:var(--sc-red2);opacity:.55"/><rect x="52" y="32" width="16" height="50" rx="6" style="fill:var(--sc-paper)"/><circle cx="60" cy="98" r="9" style="fill:var(--sc-paper)"/></svg>`,
+  gift:`<svg class="art" viewBox="0 0 150 140" aria-hidden="true"><rect x="22" y="62" width="106" height="70" style="fill:var(--sc-red);${K}"/><rect x="14" y="42" width="122" height="26" style="fill:var(--sc-red2);${K}"/><rect x="64" y="42" width="22" height="90" style="fill:var(--sc-yellow);${K}"/><path d="M75 42 C55 6 24 12 36 32 C42 42 60 42 75 42 C90 42 108 42 114 32 C126 12 95 6 75 42Z" style="fill:var(--sc-yellow);${K}"/><path d="M132 4 l4 11 11 4 -11 4 -4 11 -4 -11 -11 -4 11 -4z" style="fill:var(--sc-paper);${K};stroke-width:2"/><path d="M12 96 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3z" style="fill:var(--sc-paper)"/></svg>`,
+  person:`<svg viewBox="0 0 200 170" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><path d="M30 170 C36 116 164 116 170 170Z" style="fill:var(--sc-shirt)"/><circle cx="100" cy="74" r="34" style="fill:var(--sc-skin)"/><path d="M64 70 C62 30 138 30 136 70 Z" style="fill:var(--sc-red)"/><rect x="62" y="62" width="76" height="12" rx="6" style="fill:var(--sc-paper)"/><circle cx="100" cy="30" r="10" style="fill:var(--sc-paper)"/></svg>`,
+  box:`<svg class="art" viewBox="0 0 160 150" aria-hidden="true"><path d="M26 34 L96 22 L128 38 L58 50 Z" style="fill:var(--sc-sky);${K}"/><path d="M26 34 L58 50 L58 142 L26 126 Z" style="fill:var(--sc-blue);${K}"/><path d="M58 50 L128 38 L128 130 L58 142 Z" style="fill:var(--sc-paper);${K}"/><text x="93" y="80" text-anchor="middle" transform="skewY(-9) translate(0 15)" style="font:900 17px Impact,'Arial Black',sans-serif;fill:var(--sc-blue)">ICE MELT</text><text x="93" y="103" text-anchor="middle" transform="skewY(-9) translate(0 15)" style="font:900 22px Impact,'Arial Black',sans-serif;fill:var(--sc-red)">PRO 2GB</text><path d="M78 118 l6 -8 6 8 6 -8 6 8 6 -8 6 8" transform="skewY(-9) translate(0 15)" style="fill:none;stroke:var(--sc-sky);stroke-width:3"/>${burst(128, 26, 25, 17, 12, "--sc-yellow", "FREE!", 13)}</svg>`,
+  beforeAfter:`<svg viewBox="0 0 300 160" aria-hidden="true"><rect x="0" y="0" width="148" height="160" style="fill:var(--sc-sky)"/><rect x="152" y="0" width="148" height="160" style="fill:var(--sc-sky)"/><rect x="148" y="0" width="4" height="160" style="fill:var(--sc-paper)"/><path d="M0 160 V108 C30 70 70 58 96 76 C118 60 140 84 148 96 V160Z" style="fill:var(--sc-paper);stroke:var(--sc-grey);stroke-width:2"/><rect x="52" y="84" width="22" height="7" rx="3" style="fill:var(--sc-red);opacity:.8"/><rect x="152" y="118" width="148" height="42" style="fill:var(--sc-grey)"/><path d="M186 118 V100 L200 86 H246 L262 100 V118 Z" style="fill:var(--sc-red);${K};stroke-width:2"/><rect x="204" y="90" width="18" height="11" style="fill:var(--sc-sky)"/><rect x="226" y="90" width="18" height="11" style="fill:var(--sc-sky)"/><circle cx="204" cy="120" r="9" style="fill:var(--sc-ink)"/><circle cx="246" cy="120" r="9" style="fill:var(--sc-ink)"/><circle cx="226" cy="104" r="40" style="fill:none;stroke:var(--sc-red);stroke-width:5"/><path d="M118 30 C150 18 170 34 182 58" style="fill:none;stroke:var(--sc-red);stroke-width:6;stroke-linecap:round"/><path d="M170 52 L184 62 L188 44" style="fill:none;stroke:var(--sc-red);stroke-width:6;stroke-linecap:round;stroke-linejoin:round"/><rect x="6" y="6" width="62" height="20" style="fill:var(--sc-ink)"/><text x="37" y="21" text-anchor="middle" style="font:900 14px Impact,'Arial Black',sans-serif;fill:var(--sc-paper)">BEFORE</text><rect x="232" y="6" width="62" height="20" style="fill:var(--sc-red)"/><text x="263" y="21" text-anchor="middle" style="font:900 14px Impact,'Arial Black',sans-serif;fill:var(--sc-paper)">AFTER</text></svg>`,
+  mug:`<svg class="art" viewBox="0 0 60 60" aria-hidden="true"><circle cx="30" cy="30" r="29" style="fill:var(--sc-pink2)"/><rect x="15" y="24" width="24" height="24" rx="4" style="fill:var(--sc-paper);${K};stroke-width:2"/><path d="M39 29 h5 a5 5 0 0 1 0 12 h-5" style="fill:none;${K};stroke-width:2"/><path d="M21 19 c-3 -4 3 -6 0 -10 M28 19 c-3 -4 3 -6 0 -10 M35 19 c-3 -4 3 -6 0 -10" style="fill:none;stroke:var(--sc-paper);stroke-width:2;stroke-linecap:round"/></svg>`,
+  tv:`<svg class="tvburst" viewBox="0 0 90 90" aria-hidden="true">${burst(45, 45, 43, 32, 14, "--sc-yellow", "", 1)}<text x="45" y="40" text-anchor="middle" style="font:900 12px Impact,'Arial Black',sans-serif;fill:var(--sc-red)">AS SEEN</text><text x="45" y="56" text-anchor="middle" style="font:900 14px Impact,'Arial Black',sans-serif;fill:var(--sc-red)">ON TV!</text></svg>`,
+};
+function adHTML(a){
+  switch (a.kind) {
+    case "virus": return `<button class="x wait" type="button" data-closein="5" aria-label="Close">Close in 5</button>
+      <div class="sc-top sc-impact" data-drag>⚠ Warning! System infected</div>
+      <div class="sc-body">
+        <div class="vrow">${ART.shield}<div><b class="vbig sc-impact">Your PC is infected with (37) snowflakes!</b><div class="vsub">Lake-effect damage detected. Act now!</div></div></div>
+        <div>Your files will <b>FREEZE</b> in <span class="cd" data-cd="299" data-cd0="299">04:59</span></div>
+        <div class="scan"><i></i></div>
+        <ul class="files"><li>C:\\Driveway\\driveway.jpg .... <b>FROZEN</b></li><li>car_door_lock.sys ......... <b>FROZEN</b></li><li>windshield.dll ............ <b>ICED OVER</b></li><li>gutters.exe ............... <b>ICE DAM</b></li></ul>
+        <button class="cta green" type="button" data-cta>Clean now (recommended)</button>
+        <button class="tinylink" type="button" data-no>No thanks, I like my driveway frozen</button>
+      </div>${FOOT}`;
+    case "winner": return `<div class="rays" aria-hidden="true"></div><button class="x" type="button" aria-label="Close">×</button>
+      <div class="inner" data-drag>
+        <h3 class="sc-impact">🎉 Congratulations! 🎉</h3>
+        <p>You are today's <span class="hot">1,000,000th</span> visitor from Buffalo, NY!</p>
+        <div class="prize">${ART.gift}<div class="wheel" aria-hidden="true"></div></div>
+        <p>Only <span class="hot">2</span> FREE heated gloves left! Offer ends in <span class="cd" data-cd="59" data-cd0="59">00:59</span></p>
+        <button class="cta red" type="button" data-cta>Claim my prize ▶</button>
+      </div>${FOOT}`;
+    case "match": return `<button class="x" type="button" aria-label="Close">×</button>
+      <div class="photo" data-drag><div class="blur">${ART.person}</div><span class="dist">📍 ${esc(a.mi)} miles away</span><span class="lock">🔒 Photo unlocks when you reply</span></div>
+      <div class="inner">
+        <div class="newmsg">● ${a.n} new message${a.n > 1 ? "s" : ""}</div>
+        <div class="nm">${esc(a.who)}, ${esc(a.age)} <span class="on-dot"></span><small>online now</small></div>
+        <div class="town">${esc(a.town)}</div>
+        <div class="bubble">${esc(a.msg)}</div>
+        <button class="cta pink" type="button" data-cta>Reply now 💬</button>
+        <button class="tinylink" type="button" data-no>not interested</button>
+      </div>${FOOT}`;
+    case "download": return `<button class="x left" type="button" aria-label="Close">×</button>
+      <div class="inner" data-drag>
+        <div class="dlh sc-impact">Your download is ready</div>
+        <div class="dlrow">${ART.box}<div class="dlinfo"><div class="fname">ice-melt-2GB.exe</div><div class="stars">★★★★★ <span>(48,291)</span></div><div class="badges">✓ Fast<br>✓ Secure<br>✓ 100% Virus Free</div></div></div>
+        <button class="cta green" type="button" data-cta>▼ Download now</button>
+        <button class="tinylink" type="button" data-cta>Start Download</button>
+      </div>${FOOT}`;
+    case "trick": return `<button class="x" type="button" aria-label="Close">×</button>
+      <div class="img" data-drag>${ART.beforeAfter}${ART.tv}</div>
+      <span class="kicker sc-impact">Shocking</span>
+      <h4>Buffalo dad clears his driveway in 4 minutes with 1 weird trick</h4>
+      <div class="src">Plow drivers HATE him · Sponsored</div>
+      <button class="cta red" type="button" data-cta>See the trick ▶</button>${FOOT}`;
+    case "chat": return `<button class="x" type="button" aria-label="Close">×</button>
+      <div class="hd" data-drag>💬 ${esc(a.who)} (${esc(a.mi)} mi away) wants to chat</div>
+      <div class="inner"><div class="crow">${ART.mug}<div class="bubble">${esc(a.msg)}</div></div><div class="typing" aria-hidden="true"><i></i><i></i><i></i></div>
+        <button class="cta pink" type="button" data-cta>Chat now</button></div>${FOOT}`;
+  }
+}
+function openPremiumGate(){
+  if (premium) { openPremium(); return; }
+  closeModal(); const old = $("#pgate"); if (old) old.remove();
+  let left = 10;
+  const g = document.createElement("div"); g.className = "gate"; g.id = "pgate"; g.setAttribute("role", "dialog"); g.setAttribute("aria-label", "Advertisements before checkout");
+  const picks = [ADS[2], ADS[5], ADS[3]];
+  g.innerHTML = `<div class="gate-bar"><span>Advertisement · Your Premium checkout is loading</span><button class="gate-skip" type="button" disabled>Checkout in <b>${left}</b>s</button></div>
+    <div class="gate-grid">${picks.map(a => `<div class="pop ${a.kind}">${adHTML(a)}</div>`).join("")}</div>`;
+  document.body.appendChild(g);
+  const btn = g.querySelector(".gate-skip");
+  const paint = () => { if (left > 0) { btn.disabled = true; btn.innerHTML = `Checkout in <b>${left}</b>s`; } else { btn.disabled = false; btn.textContent = "Continue to Premium ▶"; } };
+  const iv = setInterval(() => { if (!document.body.contains(g)) { clearInterval(iv); return; } if (left > 0) { left--; paint(); } }, 1000);
+  g.querySelectorAll("[data-cta]").forEach(b => b.onclick = () => {
+    left += 3; paint(); toast("Ad clicked. +3 seconds.");
+    const p = b.closest(".pop"); p.classList.remove("shake"); void p.offsetWidth; p.classList.add("shake");
+  });
+  btn.onclick = () => { if (left > 0) return; clearInterval(iv); g.remove(); openPremium(); };
+}
 function spawnAd(ad, x, y){
-  if (premium || document.querySelectorAll(".pop:not(.closing):not(.bye)").length >= 6) return;
+  if (premium || document.querySelectorAll("body > .pop:not(.closing):not(.bye)").length >= 6) return;
   ad = ad || ADS[adIdx++ % ADS.length];
-  const el = document.createElement("div"); el.className = "pop" + (ad.match ? " match" : ""); el.setAttribute("role", "dialog"); el.setAttribute("aria-label", ad.t);
-  el.innerHTML = `<div class="tb"><span>${esc(ad.t)}</span><button class="x" type="button" aria-label="Close">×</button></div>
-    <div class="pb"><div class="ico" aria-hidden="true">${ad.ico}</div><div class="msg"><b>${esc(ad.h)}</b>${esc(ad.m)}${ad.prog ? '<div class="prog"><i></i></div>' : ""}</div></div>
-    <div class="pa">${ad.b.map((b, i) => `<button type="button" class="${i === 0 ? "def" : ""}" data-i="${i}">${esc(b)}</button>`).join("")}</div>
-    <div class="pf"><span>Advertisement</span><a data-prem tabindex="0">Remove ads with Premium</a></div>`;
+  const el = document.createElement("div"); el.className = "pop " + ad.kind; el.setAttribute("role", "dialog"); el.setAttribute("aria-label", "Advertisement");
+  el.innerHTML = adHTML(ad);
   document.body.appendChild(el);
   const w = el.offsetWidth, h = el.offsetHeight;
   const clampX = v => Math.max(8, Math.min(innerWidth - w - 8, v)), clampY = v => Math.max(8, Math.min(innerHeight - h - 8, v));
-  el.style.left = clampX(x ?? 16 + Math.random() * (innerWidth - w - 32)) + "px";
-  el.style.top = clampY(y ?? 16 + Math.random() * (innerHeight - h - 32)) + "px";
+  const corner = ad.kind === "chat" && x == null;
+  el.style.left = clampX(corner ? innerWidth : (x ?? 16 + Math.random() * (innerWidth - w - 32))) + "px";
+  el.style.top = clampY(corner ? innerHeight : (y ?? 16 + Math.random() * (innerHeight - h - 32))) + "px";
   el.style.zIndex = ++zTop;
   el.addEventListener("pointerdown", () => { el.style.zIndex = ++zTop; });
-  el.querySelector(".x").onclick = () => {
+  const xb = el.querySelector(".x");
+  xb.onclick = () => {
+    if (xb.dataset.closein) { el.classList.remove("shake"); void el.offsetWidth; el.classList.add("shake"); return; }
     if (!el.dataset.dodged && Math.random() < 0.3) { // the close button runs away once, sometimes
       el.dataset.dodged = "1"; el.style.transition = "left .22s, top .22s";
       el.style.left = clampX(Math.random() * innerWidth) + "px"; el.style.top = clampY(Math.random() * innerHeight) + "px";
@@ -1149,23 +1324,27 @@ function spawnAd(ad, x, y){
     }
     closeAd(el);
   };
-  el.querySelectorAll(".pa button").forEach(b => b.onclick = () => {
-    if (ad.b.length > 1 && +b.dataset.i === ad.b.length - 1) { closeAd(el); return; }
+  el.querySelectorAll("[data-no]").forEach(b => b.onclick = () => closeAd(el));
+  el.querySelectorAll("[data-cta]").forEach(b => b.onclick = () => {
     el.classList.remove("shake"); void el.offsetWidth; el.classList.add("shake");
-    const lines = ad.match ? TROLL_MATCH : TROLL; toast(lines[Math.floor(Math.random() * lines.length)]);
+    const lines = ad.kind === "match" || ad.kind === "chat" ? TROLL_MATCH : TROLL; toast(lines[Math.floor(Math.random() * lines.length)]);
     const r = el.getBoundingClientRect();
     spawnAd(null, r.left + 34, r.top + 34);
     setTimeout(() => spawnAd(null, r.left - 44, r.top + 70), 180);
   });
-  const pl = el.querySelector("[data-prem]"); pl.onclick = openPremium; pl.onkeydown = e => { if (e.key === "Enter") openPremium(); };
+  el.querySelectorAll("[data-prem]").forEach(p => { p.onclick = openPremiumGate; p.onkeydown = e => { if (e.key === "Enter") openPremiumGate(); }; });
   dragAd(el);
 }
+setInterval(() => {
+  document.querySelectorAll(".pop [data-cd]").forEach(s => { let v = +s.dataset.cd - 1; if (v < 0) v = +s.dataset.cd0; s.dataset.cd = v; s.textContent = String(Math.floor(v / 60)).padStart(2, "0") + ":" + String(v % 60).padStart(2, "0"); });
+  document.querySelectorAll(".pop [data-closein]").forEach(b => { const v = +b.dataset.closein - 1; if (v <= 0) { delete b.dataset.closein; b.classList.remove("wait"); b.textContent = "×"; } else { b.dataset.closein = v; b.textContent = "Close in " + v; } });
+}, 1000);
 function closeAd(el){ el.classList.add("closing"); setTimeout(() => el.remove(), 170); }
 function dragAd(el){
-  const tb = el.querySelector(".tb"); let sx = null, sy, ox, oy;
-  tb.addEventListener("pointerdown", e => { if (e.target.closest(".x")) return; sx = e.clientX; sy = e.clientY; ox = el.offsetLeft; oy = el.offsetTop; tb.setPointerCapture(e.pointerId); tb.style.cursor = "grabbing"; });
+  const tb = el.querySelector("[data-drag]") || el; let sx = null, sy, ox, oy;
+  tb.addEventListener("pointerdown", e => { if (e.target.closest("button,a")) return; sx = e.clientX; sy = e.clientY; ox = el.offsetLeft; oy = el.offsetTop; tb.setPointerCapture(e.pointerId); });
   tb.addEventListener("pointermove", e => { if (sx === null) return; el.style.left = Math.max(60 - el.offsetWidth, Math.min(innerWidth - 60, ox + e.clientX - sx)) + "px"; el.style.top = Math.max(0, Math.min(innerHeight - 30, oy + e.clientY - sy)) + "px"; });
-  const up = () => { sx = null; tb.style.cursor = ""; };
+  const up = () => { sx = null; };
   tb.addEventListener("pointerup", up); tb.addEventListener("pointercancel", up);
 }
 function renderPremBtn(){ const b = $("#premium"); b.classList.toggle("on", premium); b.textContent = premium ? "★ Premium" : "★ Remove ads"; }
@@ -1182,9 +1361,10 @@ function openPremium(){
   m.innerHTML = `<div class="pm" role="dialog" aria-modal="true" aria-labelledby="pm-t">
     <div class="pmh"><h2 id="pm-t">Snowbelt Premium</h2><p>${premium ? "You're Premium. Your screen is plowed." : "Your screen is snowed in with ads. Let's plow it."}</p></div>
     <ul><li>No pop-up ads, ever</li><li>Zero snowflakes on your PC</li><li>Priority plowing for your driveway (not really)</li></ul>
-    <div class="price"><s>$4.99/mo</s><b>$0.00</b><span class="note">free during the Promptathon</span></div>
+    <div class="price"><b>$999</b><span class="per">/month</span><span class="note">billed monthly. Cancel anytime.*</span></div>
+    <div class="fine" style="padding:4px 22px 0">*Cancellation fee: $999.</div>
     <div class="pmf">
-      ${premium ? `<button class="btn" id="pm-cancel" type="button">Cancel Premium and bring the ads back</button>` : `<button class="btn primary" id="pm-pay" type="button">Pay with 1 snow shovel</button>`}
+      ${premium ? `<button class="btn" id="pm-cancel" type="button">Cancel Premium and bring the ads back</button>` : `<button class="btn primary" id="pm-pay" type="button">Subscribe for $999/month</button>`}
       <button class="btn" id="pm-close" type="button">${premium ? "Close" : "No thanks, I love ads"}</button>
       <div class="fine">It's a joke. No payment is collected and no card is needed.</div>
     </div></div>`;
@@ -1193,15 +1373,15 @@ function openPremium(){
   $("#pm-close").onclick = () => { closeModal(); if (!premium) { toast("Bold choice."); spawnAd(); } };
   const pay = $("#pm-pay");
   if (pay) pay.onclick = async () => {
-    pay.disabled = true; pay.innerHTML = `<span class="spin"></span> Processing shovel…`;
-    await sleep(1300); pay.textContent = "✓ Payment approved"; await sleep(650);
+    pay.disabled = true; pay.innerHTML = `<span class="spin"></span> Charging $999…`;
+    await sleep(1400); pay.textContent = "✓ Approved. Relax, nothing was charged."; await sleep(1100);
     closeModal(); setPremium(true); toast("Premium unlocked. Ads plowed.");
   };
   const cancel = $("#pm-cancel");
   if (cancel) cancel.onclick = () => { closeModal(); setPremium(false); toast("The ads are back. You asked for this."); };
   (pay || cancel).focus();
 }
-document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") { closeModal(); const g = $("#pgate"); if (g) g.remove(); } });
 
 /* ---------- lake-effect snow in the header ---------- */
 (function snow(){
@@ -1228,6 +1408,6 @@ document.body.classList.add("boot");
 renderEngine(); renderAll(); renderPremBtn();
 setTimeout(() => document.body.classList.remove("boot"), 1800);
 $("#runall").onclick = runAll;
-$("#premium").onclick = openPremium;
+$("#premium").onclick = openPremiumGate;
 scheduleAd(8000);
 </script>
